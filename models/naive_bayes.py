@@ -149,6 +149,9 @@ class NaiveBayesModel(object):
         self.test_data = dataset[7000:]
         self.classifier = NaiveBayesClassifier.train(self.train_data)
 
+    def name(self):
+        return "NaiveBayes"
+
     def get_classifier(self):
         return self.classifier
 
@@ -158,10 +161,31 @@ class NaiveBayesModel(object):
     def predict(self, input_tweet):
         custom_tokens = remove_noise(word_tokenize(input_tweet))
 
-        return self.classifier.classify(dict([token, True] for token in custom_tokens))
+        return self.classifier.classify(dict([token, True] for token in custom_tokens)), 1.0
 
     def print_most_informative_features(self):
         self.classifier.show_most_informative_features(10)
+
+    def create_text(self, data):
+        positive = sum(data["Positive"].values())
+        negative = abs(sum(data["Negative"].values()))
+        total = positive + negative
+
+        total_str = str(total)
+
+        text = f"I analyzed the sentiment on the last {total_str} tweets from my home feed using a #NaiveBayes model from #NLTK. "
+        if (positive>negative):
+            percent = str(round(100*positive/total,1)) + "%"
+            text += f"A majority ({percent}) were classified as positive."
+        elif (positive == negative):
+            text += f"There were an equal amount of positive and negative tweets."
+        else:
+            percent = str(round(100*negative/total,1)) + "%"
+            text += f"A majority ({percent}) were classified as negative."
+
+        text += "\n#Python #NLP #Classification #Sentiment #GrantBot"
+
+        return text
 
 if __name__ == "__main__":
 

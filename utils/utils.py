@@ -37,6 +37,7 @@ ACCESS_TOKEN = os.environ.get("TWITTER_ACCOUNT_TOKEN")
 ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCOUNT_SECRET")
 CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
 CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
+TWITTER_USER = os.environ.get("TWITTER_USER")
 
 def tweet(status_text, image_path=None, enable_tweet=True, in_reply_to_status_id=None):
     ret = None
@@ -54,7 +55,7 @@ def tweet(status_text, image_path=None, enable_tweet=True, in_reply_to_status_id
             media_ids = None
 
         if (in_reply_to_status_id != None):
-            status_text = f"@GrantHadlich {status_text}"
+            status_text = f"{TWITTER_USER} {status_text}"
 
         # Upload Status
         status_ret = api.update_status(status=status, media_ids=media_ids, in_reply_to_status_id=in_reply_to_status_id)
@@ -109,6 +110,7 @@ def rounddown(x):
     return (int(math.floor(-x / 10.0))+1) * -10
 
 def create_plot(data, model_name=""):
+    """ Creates a Histogram Plot of input Twitter Data """
 
     now = datetime.now()
     date = now.strftime("%Y-%m-%d")
@@ -154,10 +156,10 @@ def create_plot(data, model_name=""):
     legend_label = ['Positive Tweets', 'Negative Tweets']
     plt.legend(legend_label, ncol = 2, bbox_to_anchor=([1, 1.05, 0, 0]), frameon = False)
     if (model_name == ""):
-        plt.title(f"@GrantHadlich Twitter Feed Sentiment - {date}\n", loc='left')
+        plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - {date}\n", loc='left')
         filename = "./data/" + date + "_" + str(current_hour) + ".png"
     else:
-        plt.title(f"@GrantHadlich Twitter Feed Sentiment - Model: {model_name} - {date}\n", loc='left')
+        plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - Model: {model_name} - {date}\n", loc='left')
         filename = "./data/" + date + "_" + str(current_hour) + "_" + model_name + ".png"
 
     fig.savefig(filename, dpi=256)

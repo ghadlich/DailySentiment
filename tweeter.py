@@ -41,7 +41,11 @@ if __name__ == "__main__":
     statuses = get_tweets()
 
     print("Creating Initial Tweet")
-    previous_id = tweet("I've been experimenting with #NLP #Sentiment #Classification with #Python. In the replies are a few models that analyze the sentiment of my home timeline feed on Twitter for the last 24 hours using the Twitter API.")
+    text = "How positive or negative was my Twitter feed today? "
+    text += "In the replies are a few models that analyze the sentiment of my home timeline feed on Twitter for the last 24 hours using the Twitter API."
+    text += "\nGitHub: https://github.com/ghadlich/DailySentiment"
+    text += "\n#NLP #Python"
+    previous_id = tweet(text, image_path="./data/logo.png")
 
     for model in models:
         print("Running Model: " + model.name())

@@ -21,8 +21,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE. 
-from utils.utils import tweet
-from utils.utils import get_tweets
+from twitterutils.twitterutils import tweet
+from twitterutils.twitterutils import get_tweets
 from utils.utils import create_plot
 from utils.utils import parse_tweets
 from time import sleep
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     statuses = get_tweets()
 
     print("Creating Initial Tweet")
-    text = "Hmm, how positive or negative was my Twitter feed today? "
+    text = "How positive or negative was my Twitter feed today? "
     text += "In the replies are a few models that analyze the sentiment of my home timeline feed on Twitter for the last 24 hours using the Twitter API."
     text += "\nGitHub: https://github.com/ghadlich/DailySentiment"
     text += "\n#NLP #Python"

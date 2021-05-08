@@ -24,78 +24,12 @@ import os
 import time
 import math
 import numpy as np
-import tweepy
-from tweepy.error import TweepError
 from datetime import datetime, timedelta
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-# Bearer Token
-BEARER_TOKEN = os.environ.get("BEARER_TOKEN")
-ACCESS_TOKEN = os.environ.get("TWITTER_ACCOUNT_TOKEN")
-ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCOUNT_SECRET")
-CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
-CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
 TWITTER_USER = os.environ.get("TWITTER_USER")
-
-def tweet(status_text, image_path=None, enable_tweet=True, in_reply_to_status_id=None):
-    ret = None
-    if enable_tweet:
-        auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-        auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-        api = tweepy.API(auth)
-        status = status_text
-
-        # Upload Image
-        if (image_path != None):
-            ret = api.media_upload(image_path)
-            media_ids = [ret.media_id]
-        else:
-            media_ids = None
-
-        if (in_reply_to_status_id != None):
-            status_text = f"{TWITTER_USER} {status_text}"
-
-        # Upload Status
-        status_ret = api.update_status(status=status, media_ids=media_ids, in_reply_to_status_id=in_reply_to_status_id)
-        ret = status_ret.id
-    else:
-        print("Would have tweeted: " + status_text)
-
-    return ret
-
-def get_tweets(count = 1200):
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    api = tweepy.API(auth)
-
-    ret = []
-
-    max_id = None
-
-    queries = 0
-
-    while count - len(ret) > 0 and queries < 4:
-        time.sleep(2)
-        queries += 1
-        if max_id == None:
-            query = api.home_timeline(count=200, exclude_replies=True)
-        else:
-            query = api.home_timeline(count=200, exclude_replies=True, max_id=max_id)
-
-        if len(query) == 0:
-            break
-
-        ret = ret + query
-
-        print("Queried " + str(len(query)) + " tweets")
-
-        max_id = query[-1].id
-
-    print("Found " + str(len(ret)) + " tweets")
-
-    return ret
 
 def roundup(x):
     if (x % 100 == 0):

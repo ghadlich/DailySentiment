@@ -1,3 +1,6 @@
 [submodule "twitterutils"]
 	path = twitterutils
 	url = https://github.com/ghadlich/twitterutils
+[submodule "sentimentmodels"]
+	path = sentimentmodels
+	url = https://github.com/ghadlich/sentimentmodels

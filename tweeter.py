@@ -26,15 +26,12 @@ from twitterutils.twitterutils import get_tweets
 from utils.utils import create_plot
 from utils.utils import parse_tweets
 from time import sleep
-from datetime import datetime
-from models.vader import VaderModel
-from models.transformer import TransformerModel
-from models.naive_bayes import NaiveBayesModel
+from sentimentmodels.get_models import get_models
 
 if __name__ == "__main__":
 
     print("Loading Models")
-    models = [VaderModel(), NaiveBayesModel(), TransformerModel()]
+    models = get_models()
     print("Loaded Models: " + str([model.name() for model in models]))
 
     print("Pulling Statuses")

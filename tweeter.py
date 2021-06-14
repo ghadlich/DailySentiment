@@ -27,18 +27,27 @@ from utils.utils import create_plot
 from utils.utils import parse_tweets
 from time import sleep
 from sentimentmodels.get_models import get_models
+from datetime import datetime
+import os
 
 if __name__ == "__main__":
+    now = datetime.now()
+    filename = now.strftime("%Y_%m_%d_%H") + "_timeline.txt"
 
     print("Loading Models")
     models = get_models()
     print("Loaded Models: " + str([model.name() for model in models]))
 
     print("Pulling Statuses")
-    statuses = get_tweets()
+    dir = "./raw_tweets"
+
+    os.makedirs(dir)
+
+    path = os.path.join(dir, filename)
+    statuses = get_tweets(output_file=path)
 
     print("Creating Initial Tweet")
-    text = "Hmm, let's check how positive or negative my Twitter feed was in the last few hours. "
+    text = "How negative was my Twitter feed in the last few hours? "
     text += "In the replies are a few models that analyze the sentiment of my home timeline feed on Twitter for the last 24 hours using the Twitter API."
     text += "\nGitHub: https://github.com/ghadlich/DailySentiment"
     text += "\n#NLP #Python"

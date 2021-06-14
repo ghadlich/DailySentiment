@@ -127,7 +127,7 @@ def parse_tweets(model, statuses):
         if (now-d_0 > timedelta(hours=23, minutes=0)):
             continue
 
-        prediction, _ = model.predict(status.text)
+        prediction, _ = model.predict(status.full_text)
 
         data[prediction][d_0.hour] += 1
         sorted_tweets[prediction].append(status)

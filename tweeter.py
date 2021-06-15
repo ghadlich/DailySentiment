@@ -41,7 +41,7 @@ if __name__ == "__main__":
     print("Pulling Statuses")
     dir = "./raw_tweets"
 
-    os.makedirs(dir)
+    os.makedirs(dir, exist_ok=True)
 
     path = os.path.join(dir, filename)
     statuses = get_tweets(output_file=path)

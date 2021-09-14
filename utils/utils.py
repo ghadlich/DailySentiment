@@ -119,7 +119,7 @@ def parse_tweets(model, statuses):
     now = datetime.now()
 
     for status in statuses:
-        if (status.lang != "en"):
+        if (status.lang != "en" and status.lang != "und"):
             continue
 
         d_0 = status.created_at - timedelta(hours=7, minutes=0)

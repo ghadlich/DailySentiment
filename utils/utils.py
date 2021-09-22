@@ -24,7 +24,7 @@ import os
 import time
 import math
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
@@ -84,17 +84,20 @@ def create_plot(data, model_name=""):
     ax.set_axisbelow(True)
     ax.yaxis.grid(color='gray', linestyle='dashed', alpha=0.65)
     # x ticks
-    plt.xticks(xticks, labels = x_labels, rotation=-45)
-    plt.xlabel("Tweets in Hour (PST)")
+    plt.xticks(xticks, labels = x_labels, rotation=-45, fontsize=15)
+    plt.yticks(fontsize=15)
+    plt.xlabel("Tweets in Hour (PST)", fontsize=15)
     # title and legend
     legend_label = ['Positive Tweets', 'Negative Tweets']
-    plt.legend(legend_label, ncol = 2, bbox_to_anchor=([1, 1.05, 0, 0]), frameon = False)
+    plt.legend(legend_label, ncol = 2, bbox_to_anchor=([1, 1.10, 0, 0]), frameon = False, fontsize=15)
     if (model_name == ""):
         plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - {date}\n", loc='left')
         filename = "./data/" + date + "_" + str(current_hour) + ".png"
     else:
-        plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - Model: {model_name} - {date}\n", loc='left')
+        plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - Model: {model_name} - {date}\n", loc='left', fontsize=15)
         filename = "./data/" + date + "_" + str(current_hour) + "_" + model_name + ".png"
+
+    plt.tight_layout()
 
     fig.savefig(filename, dpi=256)
 
@@ -116,7 +119,7 @@ def parse_tweets(model, statuses):
         data["Negative"][i] = 0
         data["Neutral"][i] = 0
 
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
 
     for status in statuses:
         if (status.lang != "en" and status.lang != "und"):

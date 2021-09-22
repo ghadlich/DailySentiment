@@ -70,22 +70,29 @@ def create_plot(data, model_name=""):
     fig, ax = plt.subplots(1, figsize=(16, 8))
     plt.bar(xticks, positive_values, color = '#337AE3', width =0.5)
     plt.bar(xticks, negative_values, color = '#DB4444', width =0.5)
+
     # x and y limits
-    #plt.xlim(-0.5, 23.5)
-    y_min = min(rounddown(min(data["Negative"].values())), -100)
-    y_max = max(roundup(max(data["Positive"].values())), 100)
+    y_min = min(rounddown(min(data["Negative"].values())), -75)
+    y_max = max(roundup(max(data["Positive"].values())), 75)
     plt.ylim(y_min, y_max)
+    if (abs(y_min) > 75 or y_max > 75):
+        plt.yticks(ticks=[-100,-75,-50,-25,0,25,50,75,100], fontsize=15)
+    else:
+        plt.yticks(ticks=[-75,-50,-25,0,25,50,75], fontsize=15)
+
     # remove spines
     ax.spines['right'].set_visible(False)
     ax.spines['left'].set_visible(False)
     ax.spines['top'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
+
     #grid
     ax.set_axisbelow(True)
     ax.yaxis.grid(color='gray', linestyle='dashed', alpha=0.65)
+
     # x ticks
     plt.xticks(xticks, labels = x_labels, rotation=-45, fontsize=15)
-    plt.yticks(fontsize=15)
+
     plt.xlabel("Tweets in Hour (PST)", fontsize=15)
     # title and legend
     legend_label = ['Positive Tweets', 'Negative Tweets']
@@ -94,7 +101,7 @@ def create_plot(data, model_name=""):
         plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - {date}\n", loc='left')
         filename = "./data/" + date + "_" + str(current_hour) + ".png"
     else:
-        plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - Model: {model_name} - {date}\n", loc='left', fontsize=15)
+        plt.title(f"{TWITTER_USER} Twitter Feed Sentiment - Model: {model_name} - {date}\n", loc='left', fontsize=17)
         filename = "./data/" + date + "_" + str(current_hour) + "_" + model_name + ".png"
 
     plt.tight_layout()

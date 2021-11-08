@@ -132,7 +132,7 @@ def parse_tweets(model, statuses):
         if (status.lang != "en" and status.lang != "und"):
             continue
 
-        d_0 = status.created_at - timedelta(hours=7, minutes=0)
+        d_0 = status.created_at - timedelta(hours=time.timezone//60//60, minutes=0)
 
         if (now-d_0 > timedelta(hours=23, minutes=0)):
             continue
